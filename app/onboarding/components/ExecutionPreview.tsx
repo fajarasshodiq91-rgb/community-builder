@@ -7,6 +7,7 @@ import { DiscordExecutionResult } from "@/lib/integrations/discord/types";
 import { TelegramExecutionResult } from "@/lib/integrations/telegram/types";
 import { WhatsAppCommunityPackage } from "@/lib/integrations/whatsapp/types";
 import { getDiscordOAuthInviteUrl } from "@/lib/integrations/discord/adapter";
+import ActivityAndInsights from "./ActivityAndInsights";
 
 interface ExecutionPreviewProps {
   snapshot: ApprovalSnapshot;
@@ -19,6 +20,9 @@ export default function ExecutionPreview({
   preview,
   onBackToBlueprint,
 }: ExecutionPreviewProps) {
+  // Main view: Execution setup vs Activity & Insights
+  const [viewMode, setViewMode] = useState<"execution" | "insights">("execution");
+
   // Platform tab
   const [activePlatform, setActivePlatform] = useState<"discord" | "telegram" | "whatsapp">("discord");
 
@@ -239,13 +243,47 @@ export default function ExecutionPreview({
         </div>
       </div>
 
-      {/* Platform Switcher Tabs */}
-      <div className="mb-8 flex flex-wrap gap-2 border-b border-white/10 pb-4">
-        {[
-          { id: "discord", label: "Discord", icon: "🎮", badge: "Automated Bot API" },
-          { id: "telegram", label: "Telegram", icon: "✈️", badge: "Supergroup Topics Bot" },
-          { id: "whatsapp", label: "WhatsApp", icon: "💬", badge: "Guided Community Hub" },
-        ].map((tab) => (
+      {/* Primary Mode Switcher: Setup vs Pulse & Insights */}
+      <div className="mb-6 flex rounded-2xl border border-white/10 bg-black/40 p-1.5 max-w-md">
+        <button
+          onClick={() => setViewMode("execution")}
+          className={`flex-1 rounded-xl py-2 text-xs font-semibold transition ${
+            viewMode === "execution"
+              ? "bg-white text-black shadow"
+              : "text-zinc-400 hover:text-white"
+          }`}
+        >
+          🛠️ Eksekusi & Setup
+        </button>
+        <button
+          onClick={() => setViewMode("insights")}
+          className={`flex-1 rounded-xl py-2 text-xs font-semibold transition ${
+            viewMode === "insights"
+              ? "bg-white text-black shadow"
+              : "text-zinc-400 hover:text-white"
+          }`}
+        >
+          📊 Ringkasan & Insight Riil
+        </button>
+      </div>
+
+      {viewMode === "insights" ? (
+        <ActivityAndInsights
+          initialPlatform={activePlatform}
+          communityName={snapshot.blueprint.communityName}
+          initialGuildId={guildId}
+          initialBotToken={activePlatform === "discord" ? botToken : telegramBotToken}
+          initialChatId={telegramChatId}
+        />
+      ) : (
+        <>
+          {/* Platform Switcher Tabs */}
+          <div className="mb-8 flex flex-wrap gap-2 border-b border-white/10 pb-4">
+            {[
+              { id: "discord", label: "Discord", icon: "🎮", badge: "Automated Bot API" },
+              { id: "telegram", label: "Telegram", icon: "✈️", badge: "Supergroup Topics Bot" },
+              { id: "whatsapp", label: "WhatsApp", icon: "💬", badge: "Guided Community Hub" },
+            ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => {
@@ -654,6 +692,8 @@ export default function ExecutionPreview({
             </div>
           )}
         </div>
+      )}
+      </>
       )}
 
       {/* Footer Navigation */}

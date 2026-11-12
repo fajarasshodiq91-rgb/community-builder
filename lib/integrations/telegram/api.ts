@@ -65,6 +65,14 @@ export class TelegramRestClient {
     return this.callApi<TelegramChat>("getChat", { chat_id: chatId });
   }
 
+  public async getChatMemberCount(chatId: string | number): Promise<number> {
+    return this.callApi<number>("getChatMemberCount", { chat_id: chatId });
+  }
+
+  public async getChatAdministrators(chatId: string | number): Promise<TelegramChatMember[]> {
+    return this.callApi<TelegramChatMember[]>("getChatAdministrators", { chat_id: chatId });
+  }
+
   public async getChatMember(
     chatId: string | number,
     userId: number

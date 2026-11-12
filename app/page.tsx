@@ -26,6 +26,7 @@ export default function Home() {
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link href="/onboarding" className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-zinc-200">Start guided setup <span aria-hidden="true">→</span></Link>
+            <Link href="/insights" className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-5 py-3 text-sm font-medium text-indigo-200 hover:bg-indigo-500/20 transition">📊 Community Pulse & Insights</Link>
             <a href="#how-it-works" className="rounded-xl border border-white/15 px-5 py-3 text-sm text-zinc-200 hover:bg-white/5">How it works</a>
           </div>
           <p className="mt-4 text-xs text-zinc-600">Early MVP scaffold · No platform changes happen without your approval.</p>

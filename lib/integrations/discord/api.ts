@@ -28,6 +28,15 @@ export interface DiscordRole {
   position: number;
 }
 
+export interface DiscordGuild {
+  id: string;
+  name: string;
+  icon?: string | null;
+  description?: string | null;
+  approximate_member_count?: number;
+  approximate_presence_count?: number;
+}
+
 export class DiscordRestClient {
   private token: string;
 
@@ -69,6 +78,14 @@ export class DiscordRestClient {
    */
   public async getBotUser(): Promise<DiscordUser> {
     return this.request<DiscordUser>("/users/@me");
+  }
+
+  /**
+   * Get Guild Information (including member count & online count)
+   */
+  public async getGuild(guildId: string, withCounts: boolean = true): Promise<DiscordGuild> {
+    const query = withCounts ? "?with_counts=true" : "";
+    return this.request<DiscordGuild>(`/guilds/${guildId}${query}`);
   }
 
   /**
