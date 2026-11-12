@@ -24,6 +24,15 @@ export interface CurrentGuildState {
   existingRoles: string[];
 }
 
+/**
+ * Generate official Discord OAuth2 Bot Invite URL with least-privilege permissions
+ */
+export function getDiscordOAuthInviteUrl(clientId?: string): string {
+  const resolvedClientId = clientId || process.env.DISCORD_CLIENT_ID || "123456789012345678";
+  const permissions = "268436496"; // Manage Channels (16) + Manage Roles (268435456) + View Channels (1024)
+  return `https://discord.com/oauth2/authorize?client_id=${resolvedClientId}&permissions=${permissions}&scope=bot%20applications.commands`;
+}
+
 export class DiscordExecutionAdapter {
   private jobs = new Map<string, DiscordExecutionResult>();
 
