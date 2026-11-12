@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const steps = [
   { number: "01", title: "Tell us about your community", detail: "A guided conversation about your audience, goals, and how members should interact." },
   { number: "02", title: "Review your recommendation", detail: "Understand which platforms fit your needs and why. No tool choices hidden from you." },
@@ -23,7 +25,7 @@ export default function Home() {
             Tell us what kind of community you want. Get a practical platform recommendation and a setup blueprint you can review before anything goes live.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <a href="/onboarding" className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-zinc-200">Start guided setup <span aria-hidden="true">→</span></a>
+            <Link href="/onboarding" className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-zinc-200">Start guided setup <span aria-hidden="true">→</span></Link>
             <a href="#how-it-works" className="rounded-xl border border-white/15 px-5 py-3 text-sm text-zinc-200 hover:bg-white/5">How it works</a>
           </div>
           <p className="mt-4 text-xs text-zinc-600">Early MVP scaffold · No platform changes happen without your approval.</p>
